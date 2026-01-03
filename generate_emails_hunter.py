@@ -88,11 +88,17 @@ def get_email_from_hunter(domain, first, last, api_key):
     return None
 
 def main():
-    if len(sys.argv) < 2:
-        print("Usage: python3 generate_emails_hunter.py <API_KEY>")
+
+    try:
+        import config
+        api_key = config.HUNTER_API_KEY
+    except ImportError:
+        print("Error: config.py not found. Please create it with HUNTER_API_KEY.")
         sys.exit(1)
-        
-    api_key = "368202c5aea955d7e7848dbdd3a0cdfbfd330779"
+    except AttributeError:
+        print("Error: HUNTER_API_KEY not found in config.py.")
+        sys.exit(1)
+
     
     candidates = []
     # Read candidates.csv
